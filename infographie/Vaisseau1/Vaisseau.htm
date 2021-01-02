@@ -2,35 +2,10 @@
 <html><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta charset="UTF-8">
-<title>TD_6</title>
+<title>TD_5</title>
 
 
 
-<script type="x-shader/x-vertex" id="vshaderbox">
-     uniform mat4 projection;
-     uniform mat4 modelview;
-
-     attribute vec3 vcoords;
-     attribute vec3 vnormal;
-     attribute vec2 vtexcoord;
-
-     varying vec3 fCoords;
-
-     void main() {
-        vec2 tmp;
-		vec3 tmp2;
-		
-		tmp = vtexcoord;
-        tmp2 = vnormal;
-   // inserted only to map texcoord and normal in this shader 
-   // (required since models uses texture coordinates even though 
-   //   we will not use them in this shader)
-
-        vec4 eyeCoords = modelview * vec4(vcoords,1.0);
-        gl_Position = projection * eyeCoords;
-        fCoords = vcoords;//gl_Position.xyz;
-     }
-</script>
 
 <script type="x-shader/x-vertex" id="vshader">
      uniform mat4 projection;
@@ -72,19 +47,6 @@
      }
 </script>
 
-<script type="x-shader/x-fragment" id="fshaderbox">
-     precision mediump float;
-
-     varying vec3 fCoords;
-
-     uniform samplerCube skybox;
-
-     void main() {
-          gl_FragColor = textureCube(skybox, fCoords);
-     }
-</script>
-
-
 <script id="fshader" type="x-shader/x-fragment">
 
 precision mediump float;
@@ -93,14 +55,13 @@ precision mediump float;
      uniform vec4 diffuseProduct;
      uniform vec4 specularProduct;
      uniform float shininess;
-	 
 
      varying vec3 fN, fL, fE;
      varying vec3 fviewCoords;
      varying vec2 fTexCoord;
 	 
 	 uniform sampler2D texture;
-	uniform float alpha; 
+	uniform float alpha; // TRANSPARENT
      void main() {
 
           vec4 Color;
@@ -120,46 +81,9 @@ precision mediump float;
           Color = ambient + diffuse + specular;
           Color.a = 1.0;
 			
-          gl_FragColor = Color * texture2D(texture, fTexCoord) * alpha;
+          gl_FragColor = Color * texture2D(texture, fTexCoord); //TRANSPARENT
      }
 </script>
-
-<script type="x-shader/x-vertex" id="vshadermap">
-     uniform mat4 projection;
-     uniform mat4 modelview;
-
-     attribute vec3 vcoords;
-     attribute vec3 vnormal;
-
-     varying vec3 fviewCoords;
-     varying vec3 fNormal;
-
-     void main() {
-        vec4 eyeCoords = modelview * vec4(vcoords,1.0);
-        gl_Position = projection * eyeCoords;
-        fviewCoords = eyeCoords.xyz;
-        fNormal = vnormal;
-     }
-</script>
-
-<script type="x-shader/x-fragment" id="fshadermap">
-      precision mediump float;
-
-     varying vec3 fNormal;
-     varying vec3 fviewCoords;
-
-     uniform samplerCube skybox;
-     uniform mat3 normalMatrix;
-
-     void main() {
-          vec3 N = normalMatrix * fNormal;
-          vec3 V = -fviewCoords;
-          vec3 R = -reflect(V,N);
-
-          gl_FragColor = textureCube(skybox, R);
-     }
-</script>
-
 
 <script type="text/javascript" src="Vaisseau_fichiers/simple-rotator.js"></script>
 <script type="text/javascript" src="Vaisseau_fichiers/basic-objects-IFS.js"></script>
@@ -175,18 +99,27 @@ precision mediump float;
        <col style="width: 15%;" span="1">
        <col style="width: 85%;" span="1">
     </colgroup>
-    
-    <!-- Put <thead>, <tbody>, and <tr>'s here! -->
+
     <tbody>
         <tr>
-            
             <td>
-			
-			<div>
-            <canvas width="800" height="800" id="glcanvas" style="background-color:blue"></canvas>
-            </div>
 
-
+				<h2>- WebGL -</h2>
+				<h2>Vaisseau <a href="https://www.google.com/search?q=warhammer+40k+thunderhawk&tbm=isch&ved=2ahUKEwigmezz__vtAhWKNd8KHa1MBQQQ2-cCegQIABAA&oq=warhammer+40k+thunderhawk&gs_lcp=CgNpbWcQA1AAWABg4JAFaABwAHgAgAEAiAEAkgEAmAEAqgELZ3dzLXdpei1pbWc&sclient=img&ei=Jr_vX6DuJYrr_AatmZUg&bih=597&biw=1242&hl=fr">"Thunderhawk"</a> tiré de l'univer de Warhammer 40k et modèle de Phong</h2>
+				<h3>Grégoire Intzopoulos</h3>
+				<br>
+				<h4>Appuyez sur la touche F11 pour passer en mode "plein écran"</h4>
+				<br><h4>Utilisez la souris pour faire tourner le vaisseau.
+				</h4>
+				<br>
+				<h4><a href="https://gintzopoulos.github.io/infographie/Vaisseau2/Vaisseau.htm">Cliquez ici pour retourner à la scene complète.</a></h4>
+				<noscript><hr><h3>This page requires Javascript and a web browser that supports WebGL</h3><hr></noscript>
+				
+			</td>
+            <td>			
+				<div>
+				<canvas width="902" height="902" id="glcanvas" style="background-color:blue"></canvas>
+				</div>
 			</td>
         </tr>
     </tbody>
