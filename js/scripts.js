@@ -3,6 +3,16 @@
     * Copyright 2013-2020 Start Bootstrap
     * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-freelancer/blob/master/LICENSE)
     */
+	
+	 // switch language
+	if ($(location).attr('search') === '?lang=FR') {
+		$(".fr").show();
+		$(".en").hide();
+	} else {
+		$(".en").show();
+		$(".fr").hide();
+	};
+	
     (function($) {
     "use strict"; // Start of use strict
   
@@ -66,4 +76,6 @@
     });
   
   })(jQuery); // End of use strict
+  
+ 
   
